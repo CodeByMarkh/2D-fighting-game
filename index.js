@@ -21,14 +21,16 @@ class Sprite {
             height: 50
         }
         this.color = color
+        this.isAttacking
     }
 
     draw(){
+        if (this.isAttacking) {
         c.fillStyle = this.color
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
         ///attack box
         c.fillStyle = 'green'
-        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)}
     }
 
     update(){
@@ -39,6 +41,13 @@ class Sprite {
         if (this.position.y + this.height + this.velocity.y >= canvas.height) {
             this.velocity.y = 0
         }else this.velocity.y += gravity
+    }
+
+    attack() {
+        this.isAttacking = true 
+        setTimeout(() => {
+            this.isAttacking = false 
+        }, 100);
     }
 }
 
@@ -110,10 +119,14 @@ function animate(){
     ]
 
     // detect colition
-    if(player.attackBox.position.x + player.attackBox.width >= enemy.position.x >= 
-        enemy.position.x && player.attackBox.position.x <= enemy.position.x + enemy.width
-    ){
-        console.log();
+    if(player.attackBox.position.x + player.attackBox.width >= enemy.position.x && 
+        player.attackBox.position.x <= enemy.position.x + enemy.width && 
+        player.attackBox.position.y + player.attackBox.position.height >= enemy.position.y &&
+        player.attackBox.position.y <= enemy.position.y + enemy.height &&
+        player.isAttacking
+    ){   
+        player.isAttacking = false
+        console.log('go');
     }
 }
  
@@ -134,6 +147,9 @@ window.addEventListener('keydown',(event) => {
         case 'w':
             keys.w.pressed = true
             player.velocity.y = -20
+        case ' ' :
+           player.attack()
+        break
     }``
     //enemykeys
     switch(event.key){
