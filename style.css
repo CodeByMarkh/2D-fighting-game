@@ -1,0 +1,11 @@
+.playerhp{
+    background-color: yellow;
+    height: 30px;
+    width: 100px;
+}
+.redcontainer{
+    position: relative;
+}
+.redcontainer2{
+    position: absolute;
+}
